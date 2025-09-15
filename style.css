@@ -33,7 +33,10 @@ nav {
 }
 
 .nav-logo {
-  max-width: 100px;
+  /* max-width: 100px; */
+  width: 150px; /* increase size (adjust as needed) */
+  height: auto; /* keeps aspect ratio */
+  margin-top: 20px;
 }
 
 .nav-links {
@@ -286,7 +289,7 @@ footer {
 }
 
 footer .column .logo {
-  max-width: 100px;
+  max-width: 130px;
   margin-bottom: 2rem;
 }
 
