@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Random String Analyzer</title>
-    
+
     <link rel="icon" type="image/png" sizes="32x32" href="logo.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="logo.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -48,7 +48,8 @@
       /* --- GLOBAL STYLES --- */
       body {
         margin: 0;
-        font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu;
+        font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, Ubuntu;
         background: var(--bg-color);
         color: var(--text-primary);
         min-height: 100vh;
@@ -61,13 +62,15 @@
       .app {
         width: 100%;
         max-width: 850px;
-        margin: 40px 20px;
+        /* margin: 40px 20px; */
+        margin: 30px 20px 15px; 
         background: var(--card-bg);
         padding: 40px;
         border-radius: 20px;
         box-shadow: 0 20px 40px -10px var(--shadow-color);
         border: 1px solid var(--input-border);
-        transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease,
+          border-color 0.3s ease;
         position: relative;
       }
 
@@ -103,7 +106,7 @@
         padding: 0;
         transition: all 0.2s ease;
       }
-      
+
       .theme-toggle:hover {
         background: var(--input-bg);
         color: var(--text-primary);
@@ -208,7 +211,7 @@
         color: #3b82f6;
         background: rgba(59, 130, 246, 0.05);
       }
-      
+
       .tool-btn svg {
         width: 14px;
         height: 14px;
@@ -224,7 +227,8 @@
         width: 100%;
         height: 150px;
         resize: vertical;
-        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace;
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono",
+          "Droid Sans Mono", "Source Code Pro", monospace;
         font-size: 13px;
         padding: 16px;
         border-radius: 12px;
@@ -259,7 +263,9 @@
       .result {
         margin-top: 20px;
         padding: 20px;
-        background: var(--input-bg); /* Use input bg for contrast against card */
+        background: var(
+          --input-bg
+        ); /* Use input bg for contrast against card */
         border-radius: 12px;
         border: 1px solid var(--input-border);
         font-size: 15px;
@@ -279,7 +285,7 @@
 
       /* --- FOOTER & TOAST --- */
       footer {
-        margin-top: 50px;
+        margin-bottom: 50px;
         text-align: center;
         font-size: 13px;
         color: var(--text-secondary);
@@ -315,7 +321,7 @@
         font-weight: 500;
         opacity: 0;
         transition: opacity 0.3s, bottom 0.3s;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
       }
 
       #toast.show {
@@ -329,12 +335,51 @@
     <div class="app">
       <div class="header-row">
         <div>
-           <h1>Random String Analyzer</h1>
-           <p class="subtitle">Generate, analyze and search patterns</p>
+          <h1>Random String Analyzer</h1>
+          <p class="subtitle">Generate, analyze and search patterns</p>
         </div>
-        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
-           <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-           <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <button
+          class="theme-toggle"
+          onclick="toggleTheme()"
+          aria-label="Toggle Theme"
+        >
+          <svg
+            id="sun-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="display: none"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg
+            id="moon-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
         </button>
       </div>
 
@@ -363,39 +408,64 @@
       <div class="preview-header">
         <div class="section-label">Generated String</div>
         <div class="toolbar">
-           <button class="tool-btn" onclick="toggleFullView()" title="Show Full String">
-             <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-             <span id="view-label">View Full</span>
-           </button>
-           <button class="tool-btn" onclick="copyToClipboard()" title="Copy to Clipboard">
-             <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-             Copy
-           </button>
-           <button class="tool-btn" onclick="downloadString()" title="Download as .txt">
-             <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-           </button>
+          <button
+            class="tool-btn"
+            onclick="toggleFullView()"
+            title="Show Full String"
+          >
+            <svg viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <span id="view-label">View Full</span>
+          </button>
+          <button
+            class="tool-btn"
+            onclick="copyToClipboard()"
+            title="Copy to Clipboard"
+          >
+            <svg viewBox="0 0 24 24">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path
+                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+              />
+            </svg>
+            Copy
+          </button>
+          <button
+            class="tool-btn"
+            onclick="downloadString()"
+            title="Download as .txt"
+          >
+            <svg viewBox="0 0 24 24">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </button>
         </div>
       </div>
 
       <div class="textarea-wrapper">
-        <textarea id="output-area" readonly placeholder="String will appear here..."></textarea>
+        <textarea
+          id="output-area"
+          readonly
+          placeholder="String will appear here..."
+        ></textarea>
       </div>
 
-      <div class="result" id="status-output">
-        Status: Waiting for input...
-      </div>
-
-      <footer>
-        <a
-          href="https://maheshdesai.space"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          © 2025 maheshdesai.space
-        </a>
-      </footer>
+      <div class="result" id="status-output">Status: Waiting for input...</div>
     </div>
-    
+    <footer>
+      <a
+        href="https://maheshdesai.space"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        © 2025 maheshdesai.space
+      </a>
+    </footer>
+
     <div id="toast">Copied to clipboard!</div>
 
     <script>
@@ -406,10 +476,10 @@
       function generate() {
         const lengthInput = document.getElementById("length").value;
         const length = parseInt(lengthInput, 10);
-        
-        if(isNaN(length) || length < 1) {
-            showToast("Please enter a valid length");
-            return;
+
+        if (isNaN(length) || length < 1) {
+          showToast("Please enter a valid length");
+          return;
         }
 
         const chars = new Array(length);
@@ -418,13 +488,13 @@
         }
 
         fullData = chars.join("");
-        
+
         // Reset View Mode
         isFullView = false;
         updateViewLabel();
-        
+
         updateTextArea();
-        
+
         document.getElementById("status-output").innerHTML = `
           <strong>Generated!</strong><br>
           Length: <span class="highlight">${length.toLocaleString()}</span> chars<br>
@@ -451,12 +521,11 @@
                 Index: <span class="highlight">${index}</span><br>
                 Context: <span class="highlight">${snippet}...</span>
             `;
-          
+
           // Optional: Select the text in the textarea if in view
           const textarea = document.getElementById("output-area");
           textarea.focus();
           textarea.setSelectionRange(index, index + query.length);
-          
         } else {
           document.getElementById("status-output").innerHTML =
             "<strong>No match found</strong>";
@@ -466,7 +535,7 @@
       // --- VIEW TOGGLE ---
       function toggleFullView() {
         if (!fullData) return;
-        
+
         isFullView = !isFullView;
         updateViewLabel();
         updateTextArea();
@@ -480,29 +549,31 @@
       function updateTextArea() {
         const textarea = document.getElementById("output-area");
         if (isFullView) {
-            textarea.value = fullData;
+          textarea.value = fullData;
         } else {
-            // Show preview (first 500 chars)
-            textarea.value = fullData.slice(0, 500) + (fullData.length > 500 ? " ... (Truncated)" : "");
+          // Show preview (first 500 chars)
+          textarea.value =
+            fullData.slice(0, 500) +
+            (fullData.length > 500 ? " ... (Truncated)" : "");
         }
       }
 
       // --- COPY FUNCTION ---
       function copyToClipboard() {
         if (!fullData) {
-            showToast("Nothing to copy!");
-            return;
+          showToast("Nothing to copy!");
+          return;
         }
         navigator.clipboard.writeText(fullData).then(() => {
-            showToast("Full string copied!");
+          showToast("Full string copied!");
         });
       }
 
       // --- DOWNLOAD FUNCTION ---
       function downloadString() {
         if (!fullData) {
-            showToast("Nothing to download!");
-            return;
+          showToast("Nothing to download!");
+          return;
         }
         const blob = new Blob([fullData], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
@@ -521,7 +592,7 @@
         const html = document.documentElement;
         const currentTheme = html.getAttribute("data-theme");
         const newTheme = currentTheme === "dark" ? "light" : "dark";
-        
+
         html.setAttribute("data-theme", newTheme);
         updateThemeIcon(newTheme);
       }
@@ -530,11 +601,11 @@
         const sun = document.getElementById("sun-icon");
         const moon = document.getElementById("moon-icon");
         if (theme === "dark") {
-            sun.style.display = "none";
-            moon.style.display = "block";
+          sun.style.display = "none";
+          moon.style.display = "block";
         } else {
-            sun.style.display = "block";
-            moon.style.display = "none";
+          sun.style.display = "block";
+          moon.style.display = "none";
         }
       }
 
@@ -543,7 +614,9 @@
         const toast = document.getElementById("toast");
         toast.innerText = message;
         toast.className = "show";
-        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        setTimeout(() => {
+          toast.className = toast.className.replace("show", "");
+        }, 3000);
       }
     </script>
   </body>
