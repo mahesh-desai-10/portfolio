@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random String Analyzer</title>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <style>
+      /* --- THEME VARIABLES --- */
+      :root {
+        /* Default Dark Theme (Space/Portfolio Match) */
+        --bg-color: #0f172a;
+        --card-bg: #1e293b;
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --input-bg: #020617;
+        --input-border: #334155;
+        --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        --accent-hover: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        --highlight-bg: rgba(59, 130, 246, 0.15);
+        --highlight-text: #60a5fa;
+        --shadow-color: rgba(0, 0, 0, 0.5);
+        --scrollbar-track: #0f172a;
+        --scrollbar-thumb: #334155;
+      }
+
+      [data-theme="light"] {
+        /* Light Theme (Clean/Aesthetic) */
+        --bg-color: #f1f5f9;
+        --card-bg: #ffffff;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --input-bg: #f8fafc;
+        --input-border: #cbd5e1;
+        --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+        --accent-hover: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+        --highlight-bg: rgba(59, 130, 246, 0.1);
+        --highlight-text: #2563eb;
+        --shadow-color: rgba(148, 163, 184, 0.2);
+        --scrollbar-track: #f1f5f9;
+        --scrollbar-thumb: #cbd5e1;
+      }
+
+      /* --- GLOBAL STYLES --- */
+      body {
+        margin: 0;
+        font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu;
+        background: var(--bg-color);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .app {
+        width: 100%;
+        max-width: 850px;
+        margin: 40px 20px;
+        background: var(--card-bg);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px -10px var(--shadow-color);
+        border: 1px solid var(--input-border);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        position: relative;
+      }
+
+      /* --- HEADER & TOGGLE --- */
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.5px;
+      }
+
+      .theme-toggle {
+        background: transparent;
+        border: 1px solid var(--input-border);
+        color: var(--text-secondary);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        padding: 0;
+        transition: all 0.2s ease;
+      }
+      
+      .theme-toggle:hover {
+        background: var(--input-bg);
+        color: var(--text-primary);
+        transform: rotate(15deg);
+      }
+
+      p.subtitle {
+        color: var(--text-secondary);
+        margin-top: 5px;
+        margin-bottom: 30px;
+        font-size: 15px;
+      }
+
+      /* --- INPUTS & BUTTONS --- */
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      input {
+        padding: 14px 18px;
+        font-size: 15px;
+        border-radius: 12px;
+        border: 1px solid var(--input-border);
+        background: var(--input-bg);
+        color: var(--text-primary);
+        transition: border-color 0.2s, box-shadow 0.2s;
+        font-family: inherit;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      button.primary-btn {
+        padding: 14px 28px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        background: var(--accent-gradient);
+        color: white;
+        transition: transform 0.1s, box-shadow 0.2s;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+      }
+
+      button.primary-btn:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+      }
+
+      button.primary-btn:active {
+        transform: translateY(0);
+      }
+
+      /* --- TOOLBAR --- */
+      .preview-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+
+      .section-label {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-secondary);
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 8px;
+      }
+
+      .tool-btn {
+        background: var(--input-bg);
+        border: 1px solid var(--input-border);
+        color: var(--text-secondary);
+        padding: 6px 12px;
+        font-size: 13px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+        font-family: inherit;
+        font-weight: 500;
+      }
+
+      .tool-btn:hover {
+        border-color: #3b82f6;
+        color: #3b82f6;
+        background: rgba(59, 130, 246, 0.05);
+      }
+      
+      .tool-btn svg {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+      }
+
+      /* --- TEXTAREA & RESULTS --- */
+      .textarea-wrapper {
+        position: relative;
+      }
+
+      textarea {
+        width: 100%;
+        height: 150px;
+        resize: vertical;
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace;
+        font-size: 13px;
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid var(--input-border);
+        background: var(--input-bg);
+        color: var(--text-secondary);
+        box-sizing: border-box;
+        line-height: 1.5;
+        transition: height 0.3s ease, border-color 0.2s;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+        color: var(--text-primary);
+      }
+
+      /* Custom Scrollbar for Textarea */
+      textarea::-webkit-scrollbar {
+        width: 10px;
+      }
+      textarea::-webkit-scrollbar-track {
+        background: var(--scrollbar-track);
+        border-radius: 0 12px 12px 0;
+      }
+      textarea::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-thumb);
+        border-radius: 5px;
+        border: 2px solid var(--scrollbar-track);
+      }
+
+      .result {
+        margin-top: 20px;
+        padding: 20px;
+        background: var(--input-bg); /* Use input bg for contrast against card */
+        border-radius: 12px;
+        border: 1px solid var(--input-border);
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--text-primary);
+        transition: all 0.3s ease;
+      }
+
+      .highlight {
+        font-family: monospace;
+        background: var(--highlight-bg);
+        color: var(--highlight-text);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+
+      /* --- FOOTER & TOAST --- */
+      footer {
+        margin-top: 50px;
+        text-align: center;
+        font-size: 13px;
+        color: var(--text-secondary);
+        opacity: 0.8;
+      }
+
+      footer a {
+        color: inherit;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      footer a:hover {
+        color: #3b82f6;
+      }
+
+      /* Toast Notification */
+      #toast {
+        visibility: hidden;
+        min-width: 200px;
+        background-color: var(--text-primary);
+        color: var(--bg-color);
+        text-align: center;
+        border-radius: 8px;
+        padding: 12px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        transform: translateX(-50%);
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0;
+        transition: opacity 0.3s, bottom 0.3s;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      }
+
+      #toast.show {
+        visibility: visible;
+        opacity: 1;
+        bottom: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="header-row">
+        <div>
+           <h1>Random String Analyzer</h1>
+           <p class="subtitle">Generate, analyze and search patterns</p>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
+           <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+           <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+
+      <div class="controls">
+        <input
+          type="number"
+          id="length"
+          min="10"
+          value="100000"
+          placeholder="Enter Length (e.g. 10000)"
+          aria-label="String length"
+        />
+        <button class="primary-btn" onclick="generate()">Generate</button>
+      </div>
+
+      <div class="controls full">
+        <input
+          type="text"
+          id="query"
+          placeholder="Find substring..."
+          aria-label="Search substring"
+        />
+        <button class="primary-btn" onclick="search()">Search</button>
+      </div>
+
+      <div class="preview-header">
+        <div class="section-label">Generated String</div>
+        <div class="toolbar">
+           <button class="tool-btn" onclick="toggleFullView()" title="Show Full String">
+             <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+             <span id="view-label">View Full</span>
+           </button>
+           <button class="tool-btn" onclick="copyToClipboard()" title="Copy to Clipboard">
+             <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+             Copy
+           </button>
+           <button class="tool-btn" onclick="downloadString()" title="Download as .txt">
+             <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+           </button>
+        </div>
+      </div>
+
+      <div class="textarea-wrapper">
+        <textarea id="output-area" readonly placeholder="String will appear here..."></textarea>
+      </div>
+
+      <div class="result" id="status-output">
+        Status: Waiting for input...
+      </div>
+
+      <footer>
+        <a
+          href="https://maheshdesai.space"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          © 2025 maheshdesai.space
+        </a>
+      </footer>
+    </div>
+    
+    <div id="toast">Copied to clipboard!</div>
+
+    <script>
+      let fullData = "";
+      let isFullView = false;
+
+      // --- GENERATE FUNCTION ---
+      function generate() {
+        const lengthInput = document.getElementById("length").value;
+        const length = parseInt(lengthInput, 10);
+        
+        if(isNaN(length) || length < 1) {
+            showToast("Please enter a valid length");
+            return;
+        }
+
+        const chars = new Array(length);
+        for (let i = 0; i < length; i++) {
+          chars[i] = String.fromCharCode(97 + Math.floor(Math.random() * 26));
+        }
+
+        fullData = chars.join("");
+        
+        // Reset View Mode
+        isFullView = false;
+        updateViewLabel();
+        
+        updateTextArea();
+        
+        document.getElementById("status-output").innerHTML = `
+          <strong>Generated!</strong><br>
+          Length: <span class="highlight">${length.toLocaleString()}</span> chars<br>
+          First 10: <span class="highlight">${fullData.slice(0, 10)}</span>
+        `;
+      }
+
+      // --- SEARCH FUNCTION ---
+      function search() {
+        if (!fullData) {
+          showToast("Please generate a string first.");
+          return;
+        }
+
+        const query = document.getElementById("query").value;
+        if (!query) return;
+
+        const index = fullData.indexOf(query);
+
+        if (index !== -1) {
+          const snippet = fullData.slice(index, index + 15);
+          document.getElementById("status-output").innerHTML = `
+                <strong>Match Found</strong><br>
+                Index: <span class="highlight">${index}</span><br>
+                Context: <span class="highlight">${snippet}...</span>
+            `;
+          
+          // Optional: Select the text in the textarea if in view
+          const textarea = document.getElementById("output-area");
+          textarea.focus();
+          textarea.setSelectionRange(index, index + query.length);
+          
+        } else {
+          document.getElementById("status-output").innerHTML =
+            "<strong>No match found</strong>";
+        }
+      }
+
+      // --- VIEW TOGGLE ---
+      function toggleFullView() {
+        if (!fullData) return;
+        
+        isFullView = !isFullView;
+        updateViewLabel();
+        updateTextArea();
+      }
+
+      function updateViewLabel() {
+        const label = document.getElementById("view-label");
+        label.innerText = isFullView ? "Show Preview" : "View Full";
+      }
+
+      function updateTextArea() {
+        const textarea = document.getElementById("output-area");
+        if (isFullView) {
+            textarea.value = fullData;
+        } else {
+            // Show preview (first 500 chars)
+            textarea.value = fullData.slice(0, 500) + (fullData.length > 500 ? " ... (Truncated)" : "");
+        }
+      }
+
+      // --- COPY FUNCTION ---
+      function copyToClipboard() {
+        if (!fullData) {
+            showToast("Nothing to copy!");
+            return;
+        }
+        navigator.clipboard.writeText(fullData).then(() => {
+            showToast("Full string copied!");
+        });
+      }
+
+      // --- DOWNLOAD FUNCTION ---
+      function downloadString() {
+        if (!fullData) {
+            showToast("Nothing to download!");
+            return;
+        }
+        const blob = new Blob([fullData], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "random_string.txt";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast("Download started!");
+      }
+
+      // --- THEME TOGGLE ---
+      function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        
+        html.setAttribute("data-theme", newTheme);
+        updateThemeIcon(newTheme);
+      }
+
+      function updateThemeIcon(theme) {
+        const sun = document.getElementById("sun-icon");
+        const moon = document.getElementById("moon-icon");
+        if (theme === "dark") {
+            sun.style.display = "none";
+            moon.style.display = "block";
+        } else {
+            sun.style.display = "block";
+            moon.style.display = "none";
+        }
+      }
+
+      // --- UTILS ---
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.innerText = message;
+        toast.className = "show";
+        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+      }
+    </script>
+  </body>
+</html>
